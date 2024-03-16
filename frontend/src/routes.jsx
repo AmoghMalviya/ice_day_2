@@ -1,5 +1,6 @@
 import { Home, Profile, SignUp } from "@/pages";
 import { SignIn } from "@/pages/sign-in.jsx";
+import Chat from "./pages/Chat";
 
 export const routes = [
   {
@@ -21,6 +22,11 @@ export const routes = [
     name: "Sign Up",
     path: "/sign-up",
     element: <SignUp />,
+  },
+  {
+    name: "Personal Chat",
+    path: "/personal-chat",
+    element: <Chat />,
   },
 ];
 

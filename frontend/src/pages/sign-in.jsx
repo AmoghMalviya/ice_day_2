@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Input, Button, Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
-export function SignIn() {
+export function SignIn({ history }) {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ export function SignIn() {
         },
         body: JSON.stringify(formData)
       });
+      console.log(response.data);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -28,7 +31,14 @@ export function SignIn() {
       // Handle successful login
       const responseData = await response.json();
       console.log(responseData);
-      // Redirect user to dashboard or another page upon successful login
+
+      // Redirect user based on their role
+      if (responseData.role === 'personal') {
+        navigate('/personal-chat'); // Redirect to personal dashboard
+      } else if (responseData.role === 'organization') {
+        navigate('/home'); // Redirect to organization dashboard
+      }
+
     } catch (error) {
       console.error('Error logging in:', error.message);
       // You can handle error here, like showing an error message
